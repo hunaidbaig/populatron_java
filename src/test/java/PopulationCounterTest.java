@@ -3,34 +3,18 @@
  */
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-
 
 public class PopulationCounterTest {
-    // @Mock
-    // private Files filesMock;
-    @Mock
-    ReadLine fileRead;
-    
-    // @InjectMocks
-    // private ReadLine readLine;
+
+
     @Test
     public void testSomeLibraryMethod() throws Exception {
-
         // Setup
         String expected = "World population is: 1,347,982,728\n";
 
@@ -41,18 +25,32 @@ public class PopulationCounterTest {
         System.setOut(ps);
 
         // Exercise
-        PopulationCounter.main(new String[] {"./data/worldcitiespop.csv"});
+        PopulationCounter.main(new String[] { "./data/worldcitiespop.csv" });
 
         // Assert
         System.out.flush();
         String output = baos.toString();
+        System.out.println(output);
         assertEquals(expected, output, "Population counter should return correct total");
 
         // Teardown
         System.setOut(old);
     }
 
-    
 
+    @Test
+    public void CheckSizeTest(){
+
+        ReadLineInterface readLine = mock(ReadLineInterface.class);
+        ReadLine readOut = new ReadLine();
+
+        when(readLine.getAllPopulation("./data/worldcitiespop.csv")).thenReturn(Long.valueOf(1347982728));
+
+        Long actual = readOut.getAllPopulation("./data/worldcitiespop.csv");
+
+        assertEquals(1347982728, actual);
+
+
+    }
 
 }
